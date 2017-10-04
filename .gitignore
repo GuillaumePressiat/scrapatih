@@ -1,0 +1,9 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+pdf/mco/*.pdf
+pdf/ssr/*.pdf
+results/mco/*.csv
+results/ssr/*.csv
+README.html
