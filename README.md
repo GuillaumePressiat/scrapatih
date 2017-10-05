@@ -28,6 +28,7 @@ l'année N (les sources de la FG peuvent évoluer en cours d'année, ces listes 
 - [pdftools](https://cran.r-project.org/web/packages/pdftools/index.html)
 - [stringr](https://cran.r-project.org/web/packages/stringr/index.html)
 - [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html)
+- [tidyr](https://cran.r-project.org/web/packages/tidyr/index.html)
 - [pmeasyr](https://github.com/IM-APHP/pmeasyr)
 
 
