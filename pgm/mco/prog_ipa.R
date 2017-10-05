@@ -2,7 +2,7 @@ library(pdftools)
 library(pmeasyr)
 library(dplyr, warn.conflicts = FALSE)
 
-an = 11
+an = 12
 
 file_name <- function(an){
   case_when(
@@ -45,4 +45,4 @@ bind_rows(lapply(1:length(annexes), annexe)) -> liste_annexes
 
 write.csv2(liste_annexes, 'results/mco/annexes_ipa_20' %+% an %+% '.csv', row.names = F)
 
-file.remove('tmp/ipa' %+% an %+% '.txt')
+# file.remove('tmp/ipa' %+% an %+% '.txt')
