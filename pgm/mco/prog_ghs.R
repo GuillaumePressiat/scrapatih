@@ -9,8 +9,20 @@ write.table(u, 'tmp//tarifs.txt', quote = F, row.names = F, col.names = F)
 
 
 # Reperer les pages avec les tarifs a, b, c  
-paste(u[4:145], collapse = " ") %>% stringr::str_split(., "\\n") %>% purrr::flatten_chr() %>% tibble(x  = .) -> v
+paste(u[4:145], collapse = " ") %>% stringr::str_split(., "\\n") %>% purrr::flatten_chr() %>% tibble(x  = .) %>% 
+  mutate(x = stringr::str_replace(x, 'Texte [0-9]{2,} sur [0-9]{3,}', '')) -> v
 
+v %>% 
+  filter(stringr::str_trim(substr(x,1,80)) != "",
+         !grepl('GHS\\s*GHM|basse', x)) %>% 
+  mutate(ghm = stringr::str_detect(x, '[0-9]{2}[A-Z][0-9]{2}[1234ABCDZTEJ]?'),
+             ghm_ = stringr::str_extract(x, '[0-9]{2}[A-Z][0-9]{2}[1234ABCDZTEJ]?'),
+             lib_long = lag(ghm),
+             lib_suite = ifelse(lead(ghm), x, ""), 
+             ghm__ = ghm_) %>% 
+  tidyr::fill(ghm_) %>% 
+  filter(is.na(ghm__) & lib_suite != "" & !is.na(ghm_)) %>% 
+  select(-ghm__) -> libelle_long
 
 v %>% filter(stringr::str_detect(x, '[0-9]{2}[A-Z][0-9]{2}[1234ABCDZTEJ]?')) -> w
 
@@ -22,8 +34,6 @@ temp[temp$V1 == "",] %>% select(-V1) %>% as.matrix() -> one
 temp[temp$V1 != "",] %>% select(-V9) %>% as.matrix() -> two
 
 rbind(one, two) -> three
-
-three[grepl('Texte', three)] <- ""
 
 three %>% 
   as_tibble() %>% 
@@ -60,7 +70,6 @@ four %>%
          tb = "",
          bb = "") -> base
 
-
 four %>% 
   filter(test == 5) %>% 
   mutate(bh = V6,
@@ -79,11 +88,12 @@ four %>%
 
 four %>% 
   filter(test == 2) %>% 
-  mutate(bh = V5,
-         tbase = V4,
+  mutate(bh = V4,
+         tbase = V5,
          th = V6,
          tb = "",
          bb = "") -> borne_hautes_2
+
 four %>% 
   filter(test == 4) %>% 
   mutate(bh = V5,
@@ -114,6 +124,12 @@ fin_2 %>%
   select( - gghm) %>% 
   mutate(ghs = sprintf('%04d', as.integer(ghs)))-> tarif_ghs
 
+# Ajout des libellés avec saut de ligne
+tarif_ghs %>% left_join(libelle_long %>% 
+                          distinct(ghm_, .keep_all = T) %>% select(ghm_, lib_suite), by = c('ghm' = 'ghm_')) %>% 
+  mutate(lib_ghs = paste(lib_ghs, ifelse(is.na(lib_suite), "", lib_suite), sep = " ")) %>% 
+  select(- lib_suite) -> tarif_ghs
 
 
 DT::datatable(tarif_ghs)
+
