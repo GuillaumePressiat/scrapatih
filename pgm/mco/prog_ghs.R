@@ -2,7 +2,7 @@
 
 library(pdftools)
 library(dplyr, warn.conflicts = F)
-
+# https://www.legifrance.gouv.fr/jo_pdf.do?id=JORFTEXT000034203360
 pdf_text('pdf/mco//joe_20170317_0065_0016.pdf') -> u
 
 write.table(u, 'tmp//tarifs.txt', quote = F, row.names = F, col.names = F)
