@@ -1,18 +1,21 @@
 library(pdftools)
 library(dplyr, warn.conflicts = F)
 
+# w o r k - i n - p r o g r e s s
+
+
 # regexpr utile
 rrracine <- '[0-9]{2}[A-Z][0-9]{2}[1234ABCDZTEJ]?'
 
 # Télécharger le pdf du jo, 2017 ici
 # https://www.legifrance.gouv.fr/jo_pdf.do?id=JORFTEXT000034203360
-pdf_text('pdf/mco//joe_20170317_0065_0016.pdf') -> u
+pdf_text('pdf/mco/joe_20160308_0057_0039.pdf') -> u
 
 # Pour observer l'objet, fichier temp
 write.table(u, 'tmp/tarifs.txt', quote = F, row.names = F, col.names = F)
 
 # Repérer les pages avec les tarifs a, b, c  
-paste(u[4:145], collapse = " ") %>% stringr::str_split(., "\\n") %>% purrr::flatten_chr() %>% tibble(x  = .) %>% 
+paste(u[5:159], collapse = " ") %>% stringr::str_split(., "\\n") %>% purrr::flatten_chr() %>% tibble(x  = .) %>% 
   mutate(x = stringr::str_replace(x, 'Texte [0-9]{2,} sur [0-9]{3,}', '')) -> v
 
 # On extrait les libellés longs (les lignes à la ligne, pour reconstituer ensuite le libellé entier)
@@ -50,7 +53,8 @@ three %>%
          i_7 = (V7 != ""),
          i_8 = (V8 != ""),
          i_9 = (V9 != ""),
-         test = i_5 + i_6 + i_7 + i_8 + i_9) -> four
+         i_10 = (V10 != ""),
+         test = i_5 + i_6 + i_7 + i_8 + i_9 + i_10) -> four
 
 # Différentes situations / différentes stratégies
 unique(four$test)
@@ -69,8 +73,8 @@ four %>%
   filter(test == 5) %>% 
   mutate(bh = V6,
          tbase = V7,
-         th = V8,
-         tb = V9,
+         th = V9,
+         tb = V7,
          bb = V5) -> borne_bases
 
 # 1 colonne remplie : tarif de base
@@ -89,7 +93,8 @@ four %>%
          tbase = V4,
          th = "",
          tb = "",
-         bb = "") -> base_2
+         bb = "",
+         fb = "") -> base_2
 
 # 2 colonnes remplies : borne haute, tarif de base et tarif borne haute pour le décalage à droite
 four %>% 
@@ -98,7 +103,8 @@ four %>%
          tbase = V5,
          th = V6,
          tb = "",
-         bb = "") -> borne_hautes_2
+         bb = "",
+         fb = "") -> borne_hautes_2
 
 # 4 colonnes remplies : tout est remplie mais décalage à droite
 four %>% 
@@ -107,7 +113,8 @@ four %>%
          tbase = V6,
          th = V7,
          tb = V8,
-         bb = V4) -> borne_bases_2
+         bb = V4,
+         fb = V8) -> borne_bases_2
 
 # Rassemblement
 suppressWarnings(bind_rows(borne_hautes, borne_hautes_2, borne_bases, borne_bases_2, base, base_2) -> fin)
@@ -117,12 +124,13 @@ fin %>%
   select(ghs = V2,
          ghm = V3,
          lib_ghs = V4,
-         bb, bh, tbase, tb, th) %>% 
+         bb, bh, tbase, tb, th, fb) %>% 
   mutate(bb = parse_number(bb),
          bh = parse_number(bh),
          tbase = parse_number(tbase, locale = locale(decimal_mark = ",", grouping_mark = " ")),
          tb = parse_number(tb, locale = locale(decimal_mark = ",", grouping_mark = " ")),
-         th = parse_number(th, locale = locale(decimal_mark = ",", grouping_mark = " "))) -> fin_2
+         th = parse_number(th, locale = locale(decimal_mark = ",", grouping_mark = " ")),
+         fb = parse_number(fb, locale = locale(decimal_mark = ",", grouping_mark = " "))) -> fin_2
 
 # Pour le décalage, on re-extrait le ghm, et le libellé et mise en forme du ghs sur 4 car.
 fin_2 %>% 
