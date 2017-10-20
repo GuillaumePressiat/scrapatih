@@ -1,5 +1,6 @@
 library(pdftools)
 library(dplyr, warn.conflicts = F)
+library(readr)
 
 # regexpr utile
 rrracine <- '[0-9]{2}[A-Z][0-9]{2}[1234ABCDZTEJ]?'
@@ -69,8 +70,8 @@ four %>%
   filter(test == 5) %>% 
   mutate(bh = V6,
          tbase = V7,
-         th = V8,
-         tb = V9,
+         th = V9,
+         tb = V8,
          bb = V5) -> borne_bases
 
 # 1 colonne remplie : tarif de base
@@ -105,8 +106,8 @@ four %>%
   filter(test == 4) %>% 
   mutate(bh = V5,
          tbase = V6,
-         th = V7,
-         tb = V8,
+         th = V8,
+         tb = V7,
          bb = V4) -> borne_bases_2
 
 # Rassemblement
@@ -144,3 +145,62 @@ DT::datatable(tarif_ghs, extensions = 'Buttons', options = list(
   buttons = c('copy', 'csv', 'excel', 'pdf', 'print'))
 )
 
+
+# Vérification avec la table "officielle" atih ghs_pub_2017.csv
+library(requetr)
+get_table('tarifs_mco_ghs')  %>% as_tibble() %>% filter(anseqta == '2017') -> atih
+
+# diff base
+full_join(
+  select(atih, ghs, ghm, tarif_base),
+  select(tarif_ghs, ghs, ghm, tbase),
+  suffix = c('_atih', '_pdf')
+) %>% mutate(id = tbase == tarif_base,
+             diff = tbase - tarif_base)-> test
+
+distinct(test, ghm, ghs)
+sum(test$diff, na.rm = T)
+
+# diff bh
+full_join(
+  select(atih, ghs, ghm, borne_haute),
+  select(tarif_ghs, ghs, ghm, bh),
+  suffix = c('_atih', '_pdf')
+) %>% mutate(id = borne_haute == bh,
+             diff = borne_haute - bh)-> test
+
+distinct(test, ghm, ghs)
+sum(test$diff, na.rm = T)
+
+# diff bb
+full_join(
+  select(atih, ghs, ghm, borne_basse),
+  select(tarif_ghs, ghs, ghm, bb),
+  suffix = c('_atih', '_pdf')
+) %>% mutate(id = borne_basse == bb,
+             diff = borne_basse - bb)-> test
+
+distinct(test, ghm, ghs)
+sum(test$diff, na.rm = T)
+ 
+# diff tarif_exb
+full_join(
+  select(atih, ghs, ghm, tarif_exb),
+  select(tarif_ghs, ghs, ghm, tb),
+  suffix = c('_atih', '_pdf')
+) %>% mutate(id = tarif_exb == tb,
+             diff = tarif_exb - tb)-> test
+
+distinct(test, ghm, ghs)
+sum(test$diff, na.rm = T)
+
+# diff tarif_exh
+full_join(
+  select(atih, ghs, ghm, tarif_exh),
+  select(tarif_ghs, ghs, ghm, th),
+  suffix = c('_atih', '_pdf')
+) %>% mutate(id = tarif_exh == th,
+             diff = tarif_exh - th)-> test
+
+distinct(test, ghm, ghs)
+sum(test$diff, na.rm = T)
