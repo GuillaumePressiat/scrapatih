@@ -34,6 +34,21 @@ pgm/mco/prog1b_propre.R
 pgm/ssr/prog1_propre.R
 ```
 
+#### Tarifs GHS du journal officiel (articles a,b,c, ou article d)
+
+##### Principe
+
+Chaque année en mars les tarifs sont publiés au format pdf, ces programmes permettent de récupérer les tarifs de base, bornes basse et haute, tarifs exb, exh, et forfait exb (pour 2016) par couple de ghs / ghm / libellés .
+
+Les programmes fonctionnent donc de 2016 à maintenant.
+
+##### Programmes
+
+```
+pgm/mco/prog_ghs.R
+pgm/mco/prog_ghs_forfait_exb_2016.R
+```
+
 #### Listes en annexes des Indicateurs de Performance et d'Activité ([IPA](http://www.atih.sante.fr/indicateurs-de-pilotage-de-l-activite-ipa))
   
 
