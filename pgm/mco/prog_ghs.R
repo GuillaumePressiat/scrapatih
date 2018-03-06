@@ -7,14 +7,21 @@ rrracine <- '[0-9]{2}[A-Z][0-9]{2}[1234ABCDZTEJ]?'
 
 # Télécharger le pdf du jo, 2017 ici
 # https://www.legifrance.gouv.fr/jo_pdf.do?id=JORFTEXT000034203360
-pdf_text('pdf/mco//joe_20170317_0065_0016.pdf') -> u
+# 2017
+# pdf_text('pdf/mco//joe_20170317_0065_0016.pdf') -> u
+# 2018
+pdf_text('pdf/mco//joe_20180306_0054_0011.pdf') -> u
 
 # Pour observer l'objet, fichier temp
 write.table(u, 'tmp/tarifs.txt', quote = F, row.names = F, col.names = F)
 
 # Repérer les pages avec les tarifs a, b, c  
 paste(u[4:145], collapse = " ") %>% stringr::str_split(., "\\n") %>% purrr::flatten_chr() %>% tibble(x  = .) %>% 
-  mutate(x = stringr::str_replace(x, 'Texte [0-9]{2,} sur [0-9]{3,}', '')) -> v
+  mutate(x = stringr::str_replace(x, 'Texte [0-9]{2,} sur [0-9]{2,}', '')) -> v
+
+# Repérer les pages avec les tarifs d  
+paste(u[151:290], collapse = " ") %>% stringr::str_split(., "\\n") %>% purrr::flatten_chr() %>% tibble(x  = .) %>% 
+  mutate(x = stringr::str_replace(x, 'Texte [0-9]{2,} sur [0-9]{2,}', '')) -> v
 
 # On extrait les libellés longs (les lignes à la ligne, pour reconstituer ensuite le libellé entier)
 v %>% 
@@ -144,6 +151,7 @@ DT::datatable(tarif_ghs, extensions = 'Buttons', options = list(
   dom = 'Bfrtip',
   buttons = c('copy', 'csv', 'excel', 'pdf', 'print'))
 )
+
 
 
 # Vérification avec la table "officielle" atih ghs_pub_2017.csv
