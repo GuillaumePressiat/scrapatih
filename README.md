@@ -1,6 +1,6 @@
 ---
 title: Scrapatih
-date: 6 octobre 2017
+date: 13 mars 2018
 author: Guillaume Pressiat
 --- 
 
@@ -52,7 +52,7 @@ pgm/mco/prog_ghs_forfait_exb_2016.R
 #### Listes en annexes des Indicateurs de Performance et d'Activité ([IPA](http://www.atih.sante.fr/indicateurs-de-pilotage-de-l-activite-ipa))
   
 
-Sur le même principe d'extraction que pour le volume 2 des manuels de ghm / gme, de 2011 à 2016, les annexes sont récupérées automatiquement au format csv :
+Sur le même principe d'extraction que pour le volume 2 des manuels de ghm / gme, de 2011 à 2017, les annexes sont récupérées automatiquement au format csv :
 
 - Annexe 1 - Liste des actes relevant de la neurochirurgie
 - Annexe 2 - Liste des actes relevant de la neuroradiologie
