@@ -1,6 +1,6 @@
 ---
 title: Scrapatih
-date: 13 mars 2018
+date: 2 octobre 2018
 author: Guillaume Pressiat
 --- 
 
@@ -20,8 +20,8 @@ author: Guillaume Pressiat
 	
 ##### Années prises en charge :
 
-- MCO : de 2011 à 2017 (pas dispo avant sur le site solidarites-sante.gouv)
-- SSR : de 2015 à 2017 (pas dispo avant sur le site solidarites-sante.gouv)
+- MCO : de 2011 à 2018 (pas dispo avant sur le site solidarites-sante.gouv)
+- SSR : de 2015 à 2018 (pas dispo avant sur le site solidarites-sante.gouv)
 
 *Attention il s'agit bien des listes présentes dans les pdf, donc les listes en cours au mois de mars de 
 l'année N (les sources de la FG peuvent évoluer en cours d'année, ces listes avec).*
@@ -52,7 +52,7 @@ pgm/mco/prog_ghs_forfait_exb_2016.R
 #### Listes en annexes des Indicateurs de Performance et d'Activité ([IPA](http://www.atih.sante.fr/indicateurs-de-pilotage-de-l-activite-ipa))
   
 
-Sur le même principe d'extraction que pour le volume 2 des manuels de ghm / gme, de 2011 à 2017, les annexes sont récupérées automatiquement au format csv :
+Sur le même principe d'extraction que pour le volume 2 des manuels de ghm / gme, de 2011 à 2018, les annexes sont récupérées automatiquement au format csv :
 
 - Annexe 1 - Liste des actes relevant de la neurochirurgie
 - Annexe 2 - Liste des actes relevant de la neuroradiologie

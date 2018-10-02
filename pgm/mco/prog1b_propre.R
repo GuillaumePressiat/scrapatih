@@ -1,5 +1,5 @@
   
-  an = 14
+  an = 18
   
   library(pdftools)
   library(pmeasyr)

@@ -2,10 +2,11 @@ library(pdftools)
 library(pmeasyr)
 library(dplyr, warn.conflicts = FALSE)
 
-an = 17
+an = 18
 
 file_name <- function(an){
   case_when(
+         an == 18 ~ "https://www.atih.sante.fr/sites/default/files/public/content/2757/annexe_ipa_v2018_avril2018.pdf", 
          an == 17 ~ "https://www.atih.sante.fr/sites/default/files/public/content/2757/annexe_ipa_v2017_oct2017.pdf",     
          an == 16 ~ "https://www.atih.sante.fr/sites/default/files/public/content/2757/annexe_ipa_v2016_sept2016.pdf",
          an == 15 ~ "https://www.atih.sante.fr/sites/default/files/public/content/2757/annexe_ipa_v11g_juin2015.pdf",
