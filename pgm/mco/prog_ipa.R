@@ -6,7 +6,11 @@ an = 18
 
 file_name <- function(an){
   case_when(
-         an == 18 ~ "https://www.atih.sante.fr/sites/default/files/public/content/2757/annexe_ipa_v2018_avril2018.pdf", 
+    an == 22 ~ "https://www.atih.sante.fr/sites/default/files/public/content/2757/annexe_ipa_v2022_avril2022.pdf", 
+    an == 21 ~ "https://www.atih.sante.fr/sites/default/files/public/content/2757/annexe_ipa_v2021_avril2021.pdf", 
+    an == 20 ~ "https://www.atih.sante.fr/sites/default/files/public/content/2757/annexe_ipa_v2019_mai2019.pdf", 
+    an == 19 ~ "https://www.atih.sante.fr/sites/default/files/public/content/2757/annexe_ipa_v2019_mai2019.pdf", 
+    an == 18 ~ "https://www.atih.sante.fr/sites/default/files/public/content/2757/annexe_ipa_v2018_avril2018.pdf", 
          an == 17 ~ "https://www.atih.sante.fr/sites/default/files/public/content/2757/annexe_ipa_v2017_oct2017.pdf",     
          an == 16 ~ "https://www.atih.sante.fr/sites/default/files/public/content/2757/annexe_ipa_v2016_sept2016.pdf",
          an == 15 ~ "https://www.atih.sante.fr/sites/default/files/public/content/2757/annexe_ipa_v11g_juin2015.pdf",
@@ -17,6 +21,7 @@ file_name <- function(an){
          )
 }
 
+library(stringfix)
 
 download.file(file_name(an), 
               destfile = 'pdf/mco/ipa_' %+% an %+% '.pdf',
