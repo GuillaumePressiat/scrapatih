@@ -1,15 +1,19 @@
   
-  an = 18
-  
+  an = 20
+  # bo_url <- "https://sante.gouv.fr/fichiers/bos/2020/2020.5bis.vol2.BOS.pdf"
+  bo_url <- "https://sante.gouv.fr/fichiers/bos/2020/sts_20200005_0002_p000.pdf"
   library(pdftools)
   library(pmeasyr)
   library(dplyr, warn.conflicts = FALSE)
   
   
-  download.file('http://solidarites-sante.gouv.fr/fichiers/bos/20' %+% an %+% '/sts_20' %+% an %+% '0005_0002_p000.pdf', 
+  # download.file('http://solidarites-sante.gouv.fr/fichiers/bos/20' %+% an %+% '/sts_20' %+% an %+% '0005_0002_p000.pdf',
+  #               destfile = 'pdf/mco/vol_2_20' %+% an %+% '.pdf',
+  #               mode = "wb")
+
+  download.file(bo_url,
                 destfile = 'pdf/mco/vol_2_20' %+% an %+% '.pdf',
                 mode = "wb")
-  
   
   # pdf_info('vol_2_20' %+% an %+% '.pdf')
   text <- pdf_text('pdf/mco/vol_2_20' %+% an %+% '.pdf')
